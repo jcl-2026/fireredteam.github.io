@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.88.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="" https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/normalize.css">
+
+    <title>FireRedTTS</title>
+    <link rel="icon" href="pics/icon.png" type="image/png">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .container::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .left {
+            float: left;
+            max-width: 20%; /* Adjust as needed */
+        }
+        .right {
+            float: right;
+            max-width: 20%; /* Adjust as needed */
+        }
+        img {
+            width: auto;
+            height: auto;
+        }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* This makes the container full height of the viewport */
+        }
+        video {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+
+
+<body data-new-gr-c-s-check-loaded="14.1091.0" data-gr-ext-installed="">
+
+    <div class="container">
+        <header role="banner">
+        </header>
+        <main role="main">
+            <article itemscope itemtype="https://schema.org/BlogPosting">
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <p style="text-align: left;">
+                    </p>
+                    <div class="text-center">
+                        <h2>FireRedASR: Open-Source Industrial-Grade Mandarin Speech Recognition Models from Encoder-Decoder to LLM Integration</h2>
+                        [<a href="https://arxiv.org/abs/2409.03283">Paper</a>]
+                        [<a href="https://github.com/FireRedTeam/FireRedASR">Code</a>]
+                        [<a href="https://huggingface.co/fireredteam">Huggingface Model</a>]
+
+                        <p class="fst-italic mb-0">
+                            <br>
+                            <b><a href="https://fireredteam.github.io">FireRed Team</a></b>
+                        <p></p>
+                        </p>
+                    </div>
+                    <p><b>Abstract.</b>We present FireRedASR, a family of large-scale automatic speech recognition (ASR) models for Mandarin, designed to meet diverse requirements in superior performance and optimal efficiency across various applications. FireRedASR comprises two variants:
+                        <p><b>FireRedASR-LLM:</b> Designed to achieve state-of-the-art (SOTA) performance and to enable seamless end-to-end speech interaction. It adopts an Encoder-Adapter-LLM framework leveraging large language model (LLM) capabilities. On public Mandarin benchmarks, FireRedASR-LLM (8.3B parameters) achieves an average Character Error Rate (CER) of 3.05%, surpassing the latest SOTA of 3.33% with an 8.4% relative CER reduction (CERR). It demonstrates superior generalization capability over industrial-grade baselines, achieving 24%-40% CERR in multi-source Mandarin ASR scenarios such as video, live, and intelligent assistant.</p>                      
+                        <p><b>FireRedASR-AED: </b>Designed to balance high performance and computational efficiency and to serve as an effective speech representation module in LLM-based speech models. It utilizes an Attention-based Encoder-Decoder (AED) architecture. On public Mandarin benchmarks, FireRedASR-AED (1.1B parameters) achieves an average CER of 3.18%, slightly worse than FireRedASR-LLM but still outperforming the latest SOTA model with over 12B parameters. It offers a more compact size, making it suitable for resource-constrained applications.</p>                        
+                        <p></p>Moreover, both models exhibit competitive results on Chinese dialects and English speech benchmarks and excel in singing lyrics recognition. To advance research in speech processing, we release our models and inference code at <a href="https://github.com/FireRedTeam/FireRedASR">Link</a>.</p>
+                    </p>
+
+                    <p>
+					<b>Contents</b>
+                    <ul>
+                        <li><a href="#model-overview">System Overview</a></li>
+                        <li><a href="#CER1">CER results on four public Mandarin ASR test sets</a></li>
+						<li><a href="#CER2">CER and CERR on multi-source Mandarin speech and singing test sets</a></li>
+                        <li><a href="#CER3">CER and WER on Chinese dialect (KeSpeech) and English (LibriSpeech)
+                            test sets.</a></li>
+                    </ul>
+                    </p>
+                </div>
+
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="model-overview" style="text-align: center;">System Overview</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/fireredasr.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Figure 1.</b> Architecture of FireRedASR-LLM (left), FireRedASR-AED (bottom right), and Adapter.
+                    </p>
+                </div>
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="CER1" style="text-align: center;">CER results on four public Mandarin ASR test sets</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/cer1.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Table 1.</b> Comparison of CER for FireRedASR-LLM, FireRedASR-AED
+                        and other released large ASR models on four public Mandarin ASR test sets.
+                    </p>
+                </div>
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="CER2" style="text-align: center;">CER and CERR on multi-source Mandarin speech and singing test sets</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/cer2.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Table 2.</b> Comparison of CER and relative CER reduction (CERR) for FireRedASR-LLM, FireRedASR-AED and baseline ASR models on multi-source Mandarin speech and singing test sets. CERR values are computed relative to FireRedASR-LLM performance.
+                    </p>
+                </div>
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="CER3" style="text-align: center;">CER and WER on Chinese dialect (KeSpeech) and English (LibriSpeech)</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/cer3.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Table 3.</b> Comparison of ASR performance on Chinese dialect (KeSpeech) and English (LibriSpeech) test sets. Results are reported in CER(%) for KeSpeech and WER(%) for Librispeech.
+                    </p>
+                </div>
+            
+            </article>
+        </main>
+    </div>
+
+</body>
+
+</html>
