@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.88.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="" https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/normalize.css">
+
+    <title>FireRedTTS</title>
+    <link rel="icon" href="pics/icon.png" type="image/png">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .container::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .left {
+            float: left;
+            max-width: 20%; /* Adjust as needed */
+        }
+        .right {
+            float: right;
+            max-width: 20%; /* Adjust as needed */
+        }
+        img {
+            width: auto;
+            height: auto;
+        }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* This makes the container full height of the viewport */
+        }
+        video {
+            max-width: 80%;
+            max-height: 80%;
+        }
+        audio {
+            max-width: 90%;
+            display: block;
+            margin: 0 auto;
+            /* transform: scale(0.8); */
+            /* transform-origin: top left; */
+        }
+    </style>
+</head>
+
+
+<body data-new-gr-c-s-check-loaded="14.1091.0" data-gr-ext-installed="">
+
+    <div class="container">
+        <header role="banner">
+        </header>
+        <main role="main">
+            <article itemscope itemtype="https://schema.org/BlogPosting">
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <p style="text-align: left;">
+                        <img src="pics/FireRedTTS_Logo_wt_bg_red_type.png" height="200" width="200" alt="Left image" class="left">
+                        <img src="pics/FireRedTTS_Logo_wt_bg_red_type.png" height="200" width="200" alt="Right image" class="right">
+                    </p>
+                    <div class="text-center">
+                        <h2>FireRedTTS-1S: An Upgraded Streamable Foundation Text-to-Speech System</h2>
+                        <!-- [<a href="https://arxiv.org/abs/2409.03283">Paper</a>] -->
+                        [<a href="https://github.com/FireRedTeam/FireRedTTS">Code</a>]
+                        <!-- [<a href="https://huggingface.co/spaces/fireredteam/FireRedTTS">Huggingface Demo</a>] -->
+
+                        <p class="fst-italic mb-0">
+                            <br>
+                            <b><a href="https://fireredteam.github.io">FireRed Team</a></b>
+                        <p></p>
+                        </p>
+                    </div>
+                    <p><b>Abstract: </b>In this work, we propose a high-quality streaming foundation text-to-speech system, FireRedTTS-1S, upgraded from the streamable version of FireRedTTS. FireRedTTS-1S achieves streaming generation via two steps: text-to-semantic decoding and semantic-to-acoustic decoding. In text-to-semantic decoding, a semantic-aware speech tokenizer converts the speech signal into semantic tokens, which can be synthesized from the text via a semantic language model in an auto-regressive manner. Meanwhile, the semantic-to-acoustic decoding module simultaneously translates generated semantic tokens into the speech signal in a streaming way via a super-resolution causal audio codec and a multi-stream acoustic language model. This design enables us to produce high-quality speech audio in zero-shot settings while presenting a real-time generation process with low latency under 150ms. In experiments on zero-shot voice cloning, the objective results validate FireRedTTS-1S as a high-quality foundation model with comparable intelligibility and speaker similarity over industrial baseline systems. Furthermore, the subjective score of FireRedTTS-1S highlights its impressive synthesis performance, achieving comparable quality to the ground-truth recordings. These results validate FireRedTTS-1S as a high-quality streaming foundation TTS system.
+                    </p>
+                </div>
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="model-overview" style="text-align: center;">System Overview</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/fireredtts1s.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Figure 1.</b> An overview of the FireRedTTS-1S: In (a) text-to-semantic decoding, a speech tokenizer is trained to extract semantic tokens and speaker embedding from the speech audio, and a semantic language model generates semantic tokens from the input text sequence and the speaker embedding from the reference audio. In (b) semantic-to-acoustic decoding, we can translate semantic tokens into the speech waveform in a streaming way. A multi-stream acoustic LM with a ``delay pattern" is trained to map semantic tokens into the multi-stream acoustic token sequence, which is encoded from the speech signal and decoded back by the acoustic codec.
+                    </p>
+                </div>
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="zero-shot-icl-samples" style="text-align: center;">Voice Cloning</h2>
+                    <br>
+                    <h4 id="cs-samples" style="text-align: center;">Zero-Shot In-Context Learning</h4>
+                    <br>
+                    <div style="text-align: center;">
+                    Note: The text in black is for the prompt audio, and the text in <span style='color:red'>red</span> is for the synthesized audio.
+                    </div>
+                    <div class="table-responsive pt-3">
+                        <table class="table table-hover pt-2" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align : middle;text-align: center">Prompt</th>
+                                    <th style="vertical-align : middle;text-align: center">CosyVoice 2</th>
+                                    <th style="vertical-align : middle;text-align: center">FireRedTTS-1</th>
+                                    <th style="vertical-align : middle;text-align: center">FireRedTTS-1S</th>
+                                    <th style="vertical-align : middle;text-align: center">Ground Truth</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myTableBody">
+                            </tbody>
+                        <script>
+                            const tableElem = document.getElementById('myTableBody');
+                            var root = './audio';
+                            var tasks = 'ZeroShotICL_samples';
+                            var id_list = [
+                                // Selected
+                                ["13_16_50731682_14_s197860_e210560_spk1", "关于毒液和始祖公司的事儿丰毅现在确实不好说。", "而且，就算一些信息以后会公开，现在手续还没办理完，不好对其他人讲。"],
+                                ["10_07_54287709_24_s38730_e58480_spk0", "看相算卦这些东西虽然比较玄乎但他看来却是比较有规律可循的，什么样的人有什么样的命，有时候就像电影院里的对号入座一样简单。", "常年跟在自己身边根本不用自己去教自然就可以学会嘛，所以他也就答应了下来。"],
+                                ["02_15_73636936_112_s134120_e152170_spk0", "要懂得放下筷子，在中国文化中，夹菜不要转桌是一种避免破坏餐桌秩序和尊重他人的行为。", "而看到有人敬酒时放下筷子，则是对主人表示尊重和回应的方式。"],
+                                ["07_04_25032338_1_s998770_e1010260_spk0", "太子和齐王，有上一次毒杀秦王之举后。", "并没有受到朝廷的严责，他们肯定会得寸进尺。"],
+                                ["11_13_54105365_2_s503800_e522890_spk0", "当年九月二十号，警方迅速把乔建国家就包围了，二十多名便衣警察分布在他家的各个路口。", "但是有过三次服刑经验的乔建国很快就发现了警方的部署了，人这也是跟警方打交道打出经验来了,他呢。"],
+                                ["15_06_18078184_12_s282240_e301840_spk0", "认证管理，生产扶持，社会保障，金融信贷等方面的政策体系。", "逐步让新型职业农民，既能享受与城镇职工在养老，医疗等方面同等的社会保障，也能享受在农业生产经营上的专门扶持政策。"],
+                                ["02_03_76335636_18_s224350_e243050_spk0", "这是一种七十到八十年代云南产的普洱茶以耐泡著称放现在的价格至少要五六千元一块茶饼。", "这么名贵的茶叶不是用来招待普通访客的，所以我认为，死者最后招待的客人档次非常高，而且也对茶叶有一定的品味。"],
+                                ["21_21_56631805_14_s71280_e89850_spk0", "可是他的话效果有限，那些买衣服的人心思已经不全在衣服上了，过来之后选好衣服赶紧付钱，抽完奖带着奖品就匆匆走了。", "甚至有好几个干脆直接放弃了抽奖的机会，张平对此也不好劝说。"],
+                                ["24_07_52541293_2_s757280_e776010_spk0", "夜深了，被炎热和重重烦心的事儿包裹着的慧征，睡意全无，他躲在书房里，呆滞滞的坐在书案前，提笔在宣纸上胡乱的画着。", "脑子像个光秃秃的雪原，白茫茫一片。"],
+                                ["27_30_39201731_3_s197930_e218150_spk0", "支撑着阴阳图，也只是让我们防御更加强大而无法反击，邪神全力施展，扛住第一下，扛不住第二下。", "到了他这个级别，花哨的各种招式已经不管用了，这是道的碰撞。"],
+                            ];
+                    
+                            var file_list = id_list;
+                            var N = file_list.length;
+
+                            for (var j = 0; j < N; j++) {
+                                rowElem = document.createElement('tr');
+                
+                                colElem = document.createElement('td');
+                                colElem.colSpan = "5";
+                                colElem.align = 'center';
+                                colElem.innerHTML = file_list[j][1] + "<span style='color:red'>" + file_list[j][2] + '</span>'
+                                rowElem.appendChild(colElem);
+                                
+                                tableElem.appendChild(rowElem);
+                
+                                rowElem = document.createElement('tr');
+                
+                                // Prompt
+                                colElem = document.createElement('td');
+                                audio_path = root + "/" + tasks + "/prompts/" + file_list[j][0] + ".wav"
+                                audio_html = "<audio name=\"audio_" + (j * 5 + 0).toString() + "\" controls=\"\"><source src=\"" + audio_path + "\" type=\"audio/mpeg\" /></audio>";
+                                colElem.innerHTML = audio_html;
+                                rowElem.appendChild(colElem);
+
+                                // Cosyvoice2
+                                colElem = document.createElement('td');
+                                audio_path = root + "/" + tasks + "/cosyvoice2/merged_" + file_list[j][0] + ".wav"
+                                audio_html = "<audio name=\"audio_" + (j * 5 + 2).toString() + "\" controls=\"\"><source src=\"" + audio_path + "\" type=\"audio/mpeg\" /></audio>";
+                                colElem.innerHTML = audio_html;
+                                rowElem.appendChild(colElem);
+
+                                // fireredtts1
+                                colElem = document.createElement('td');
+                                audio_path = root + "/" + tasks + "/fireredtts1/merged_" + file_list[j][0] + ".wav"
+                                audio_html = "<audio name=\"audio_" + (j * 5 + 3).toString() + "\" controls=\"\"><source src=\"" + audio_path + "\" type=\"audio/mpeg\" /></audio>";
+                                colElem.innerHTML = audio_html;
+                                rowElem.appendChild(colElem);
+
+                                // fireredtts1s
+                                colElem = document.createElement('td');
+                                audio_path = root + "/" + tasks + "/fireredtts1s/merged_" + file_list[j][0] + ".wav"
+                                audio_html = "<audio name=\"audio_" + (j * 5 + 4).toString() + "\" controls=\"\"><source src=\"" + audio_path + "\" type=\"audio/mpeg\" /></audio>";
+                                colElem.innerHTML = audio_html;
+                                rowElem.appendChild(colElem);
+
+                                // Ground truth
+                                colElem = document.createElement('td');
+                                audio_path = root + "/" + tasks + "/ground_truth/merged_" + file_list[j][0] + ".wav"
+                                audio_html = "<audio name=\"audio_" + (j * 5 + 1).toString() + "\" controls=\"\"><source src=\"" + audio_path + "\" type=\"audio/mpeg\" /></audio>";
+                                colElem.innerHTML = audio_html;
+                                rowElem.appendChild(colElem);
+                                
+                                tableElem.appendChild(rowElem);
+                            }
+                        </script>
+                        </table>
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+
+</body>
+
+</html>
