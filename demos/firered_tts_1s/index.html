@@ -78,7 +78,7 @@
                         <p></p>
                         </p>
                     </div>
-                    <p><b>Abstract: </b>In this work, we propose a high-quality streaming foundation text-to-speech system, FireRedTTS-1S, upgraded from the streamable version of FireRedTTS. FireRedTTS-1S achieves streaming generation via two steps: text-to-semantic decoding and semantic-to-acoustic decoding. In text-to-semantic decoding, a semantic-aware speech tokenizer converts the speech signal into semantic tokens, which can be synthesized from the text via a semantic language model in an auto-regressive manner. Meanwhile, the semantic-to-acoustic decoding module simultaneously translates generated semantic tokens into the speech signal in a streaming way via a super-resolution causal audio codec and a multi-stream acoustic language model. This design enables us to produce high-quality speech audio in zero-shot settings while presenting a real-time generation process with low latency under 150ms. In experiments on zero-shot voice cloning, the objective results validate FireRedTTS-1S as a high-quality foundation model with comparable intelligibility and speaker similarity over industrial baseline systems. Furthermore, the subjective score of FireRedTTS-1S highlights its impressive synthesis performance, achieving comparable quality to the ground-truth recordings. These results validate FireRedTTS-1S as a high-quality streaming foundation TTS system.
+                    <p><b>Abstract: </b>In this work, we upgrade FireRedTTS to a new version, FireRedTTS-1S, a high-quality streaming foundation text-to-speech system. FireRedTTS-1S achieves streaming speech generation via two steps: text-to-semantic decoding and semantic-to-acoustic decoding. In text-to-semantic decoding, a semantic-aware speech tokenizer converts the speech signal into semantic tokens, which can be synthesized from the text via a language model in an auto-regressive manner. Meanwhile, the semantic-to-acoustic decoding module simultaneously translates generated semantic tokens into the speech signal in a streaming way. We implement two approaches to achieve this module: 1) a chunk-wise streamable flow-matching approach, and 2) a multi-stream language model-based approach. They both present high-quality and streamable speech generation but differ in real-time factor (RTF) and latency. Specifically, flow-matching decoding can generate speech by chunks, presenting a lower RTF of 0.1 but a higher latency of 300ms. Instead, the multi-stream language model generates speech by frames in an autoregressive manner, presenting a higher RTF of 0.3 but a low latency of 150ms. In experiments on zero-shot voice cloning, the objective results validate FireRedTTS-1S as a high-quality foundation model with comparable intelligibility and speaker similarity over industrial baseline systems. Furthermore, the subjective score of FireRedTTS-1S highlights its impressive synthesis performance, achieving comparable quality to the ground-truth recordings. These results validate FireRedTTS-1S as a high-quality streaming foundation TTS system.
                     </p>
                 </div>
 
@@ -90,7 +90,7 @@
                         </p>
                     </body>
                     <p style="text-align: center;">
-                        <b>Figure 1.</b> An overview of the FireRedTTS-1S: In (a) text-to-semantic decoding, a speech tokenizer is trained to extract semantic tokens and speaker embedding from the speech audio, and a semantic language model generates semantic tokens from the input text sequence and the speaker embedding from the reference audio. In (b) semantic-to-acoustic decoding, we can translate semantic tokens into the speech waveform in a streaming way. A multi-stream acoustic LM with a ``delay pattern" is trained to map semantic tokens into the multi-stream acoustic token sequence, which is encoded from the speech signal and decoded back by the acoustic codec.
+                        <b>Figure 1.</b> An overview of the FireRedTTS-1S: In text-to-semantic decoding, a speech tokenizer is trained to extract semantic tokens and speaker embedding from the speech audio, and a semantic language model generates semantic tokens from the input text sequence and the speaker embedding from the reference audio. In semantic-to-acoustic decoding, we implement two approaches to translate semantic tokens into the speech waveform in a streaming way. In (c), we empower the flow-matching approach with the streamable decoding capability. In (d), a multi-stream acoustic LM with a "delay pattern" is trained to map semantic tokens into the multi-stream acoustic token sequence, which is encoded from the speech signal and decoded back by the acoustic codec.
                     </p>
                 </div>
 
@@ -108,8 +108,9 @@
                                 <tr>
                                     <th style="vertical-align : middle;text-align: center">Prompt</th>
                                     <th style="vertical-align : middle;text-align: center">CosyVoice 2</th>
-                                    <th style="vertical-align : middle;text-align: center">FireRedTTS-1</th>
-                                    <th style="vertical-align : middle;text-align: center">FireRedTTS-1S</th>
+                                    <th style="vertical-align : middle;text-align: center">FireRedTTS1</th>
+                                    <th style="vertical-align : middle;text-align: center">FireRedTTS1S-LM</th>
+                                    <th style="vertical-align : middle;text-align: center">FireRedTTS1S-FM</th>
                                     <th style="vertical-align : middle;text-align: center">Ground Truth</th>
                                 </tr>
                             </thead>
@@ -140,7 +141,7 @@
                                 rowElem = document.createElement('tr');
                 
                                 colElem = document.createElement('td');
-                                colElem.colSpan = "5";
+                                colElem.colSpan = "6";
                                 colElem.align = 'center';
                                 colElem.innerHTML = file_list[j][1] + "<span style='color:red'>" + file_list[j][2] + '</span>'
                                 rowElem.appendChild(colElem);
@@ -170,12 +171,21 @@
                                 colElem.innerHTML = audio_html;
                                 rowElem.appendChild(colElem);
 
-                                // fireredtts1s
+                                // fireredtts1s-LM
                                 colElem = document.createElement('td');
-                                audio_path = root + "/" + tasks + "/fireredtts1s/merged_" + file_list[j][0] + ".wav"
+                                audio_path = root + "/" + tasks + "/fireredtts1s-LM/merged_" + file_list[j][0] + ".wav"
                                 audio_html = "<audio name=\"audio_" + (j * 5 + 4).toString() + "\" controls=\"\"><source src=\"" + audio_path + "\" type=\"audio/mpeg\" /></audio>";
                                 colElem.innerHTML = audio_html;
                                 rowElem.appendChild(colElem);
+
+
+                                // fireredtts1s-FM
+                                colElem = document.createElement('td');
+                                audio_path = root + "/" + tasks + "/fireredtts1s-FM/merged_" + file_list[j][0] + ".wav"
+                                audio_html = "<audio name=\"audio_" + (j * 5 + 4).toString() + "\" controls=\"\"><source src=\"" + audio_path + "\" type=\"audio/mpeg\" /></audio>";
+                                colElem.innerHTML = audio_html;
+                                rowElem.appendChild(colElem);
+
 
                                 // Ground truth
                                 colElem = document.createElement('td');
