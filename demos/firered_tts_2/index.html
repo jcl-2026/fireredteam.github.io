@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.88.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="" https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/normalize.css">
+
+    <title>FireRedTTS</title>
+    <link rel="icon" href="pics/icon.png" type="image/png">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .container::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .left {
+            float: left;
+            max-width: 20%;
+            /* Adjust as needed */
+        }
+
+        .right {
+            float: right;
+            max-width: 20%;
+            /* Adjust as needed */
+        }
+
+        img {
+            width: auto;
+            height: auto;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            /* This makes the container full height of the viewport */
+        }
+
+        video {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+
+
+<body data-new-gr-c-s-check-loaded="14.1091.0" data-gr-ext-installed="">
+
+    <div class="container">
+        <header role="banner">
+        </header>
+        <main role="main">
+            <article itemscope itemtype="https://schema.org/BlogPosting">
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <p style="text-align: left;">
+                        <img src="pics/FireRedTTS_Logo_wt_bg_red_type.png" height="200" width="200" alt="Left image"
+                            class="left">
+                        <img src="pics/FireRedTTS_Logo_wt_bg_red_type.png" height="200" width="200" alt="Right image"
+                            class="right">
+                    </p>
+                    <div class="text-center">
+                        <h2>FireRedTTS-2: Towards Long Conversational Speech Generation for Podcast and Chatbot</h2>
+                        [<a href="TODO">Paper</a>]
+                        [<a href="TODO">Code</a>]
+                        <!-- [<a href="https://huggingface.co/spaces/fireredteam/FireRedTTS">Huggingface Demo</a>] -->
+
+                        <p class="fst-italic mb-0">
+                            <br>
+                            <b><a href="https://fireredteam.github.io">FireRed Team</a></b>
+                        <p></p>
+                        </p>
+                    </div>
+                    <p><b>Abstract.</b> Conventional monologue text-to-speech systems can synthesis natural-sounding
+                        single-speaker utterances. They can be adapted to multi-speaker dialogue generation by
+                        segmenting the text into utterances and synthesizing each fragment,but their limited awareness
+                        of text and speech context often leads to incoherent prosody. Current dialogue-generation
+                        approaches typically require the full dialogue text upfront before synthesis and produce a
+                        single mixed speech containing all voices, which hinders their use in interactive chat
+                        scenarios. They also suffer from unstable synthesis, inaccurate speaker transitions and
+                        incoherent prosody. In this work, we present FireRedTTS-2, a conversational speech generation
+                        system well suited to downstream chat and podcast applications. It features a low frame rate
+                        streaming speech tokenizer with enhanced semantic representations and a dual transformer
+                        text-to-speech model operating on text-speech interleaving format. Its design allows for
+                        flexible sentence-by-sentence generation with first packet latency lower than 100ms.
+                        Experimental results show that FireRedTTS-2 integrates seamlessly into interactive chat
+                        frameworks, producing emotional speech response inferred from implicit context. It delivers more
+                        stable synthesis, more accurate speaker transitions, and more contextually coherent prosody,
+                        surpassing state-of-the-art dialogue generation models such as MoonCast, ZipVoice-Dialogue, and
+                        MOSS-TTSD.
+                    </p>
+
+                    <p>
+                        <b>Contents</b>
+                    <ul>
+                        <li><a href="#app-video">Demo</a>
+                        <li><a href="#model-overview">System Overview</a></li>
+                        <!-- <li><a href="#zero-shot-icl-samples">Zero-Shot Voice Cloning</a></li>
+                        <ul>
+                            <li><a href="#cs-samples">Zero-Shot In-Context Learning</a></li>
+                            <li><a href="#speaker-finetune-samples">Few-Shot Speaker Adaptation</a></li>
+                        </ul> -->
+
+                        <li><a href="#podcast-generation">Podcast Generation</a></li>
+                        <ul>
+                            <li><a href="#zero-shot-podcast-generation">Zero-Shot Podcast Generation</a></li>
+                            <li><a href="#finetuned-podcast-generation">Speaker-Specific Finetuned Podcast
+                                    Generation</a></li>
+                        </ul>
+
+
+                        <li><a href="#interactive-chat">Interactive Chat</a></li>
+                        <ul>
+                            <li><a href="#emo">Emotional Speech Generation</a></li>
+                            <!-- <li><a href="#para">Para-Lingual Speech Generation</a></li> -->
+                        </ul>
+
+
+                    </ul>
+                    </p>
+                </div>
+
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="app-video" style="text-align: center;">Video Placeholder</h2>
+                    <div class="video-container">
+                        <video controls>
+                            <source src="" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="model-overview" style="text-align: center;">System Overview</h2>
+
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/fireredtts2.png" height="822" width="418">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Figure 1.</b> An overview of FireRedTTS-2, including: (a) a new speech tokenizer with a 12.5
+                        Hz frame rate and enhanced semantic information, and (b) a text-to-speech model using a
+                        dual-transformer architecture with interleaved text–speech input, enabling per-sentence
+                        generation and context-coherent prosody.
+                    </p>
+                </div>
+
+
+
+                <!-- <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="zero-shot-icl-samples" style="text-align: center;">Voice Cloning</h2>
+                    <br>
+                    <h4 id="cs-samples" style="text-align: center;">Zero-Shot In-Context Learning</h4>
+                    <br>
+                    <div class="table-responsive pt-3">
+                        <table class="table table-hover pt-2">
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align : middle;text-align: center">
+                                        <font color="red">Chinese</font> Text
+                                    </th>
+                                    <th style="vertical-align : middle;text-align: center">
+                                        <font color="red">English</font> Prompt
+                                    </th>
+                                    <th style="vertical-align : middle;text-align: center">Generation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        明确线上课程教师讲授直播录播时间一般不超过二十分钟。
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/english_to_mandarin/4077_13751_000006_000008.wav"
+                                                autoplay />
+                                        </audio><br>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/english_to_mandarin/4077_13751_000006_000008%23zh_066_rep6.wav"
+                                                autoplay />
+                                        </audio>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        恰好在这个时候出现的演员限酬令和制作限价令，也绝不是偶然的了。
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/ZeroShotICL_samples/english_to_mandarin/0016_000731.wav"
+                                                autoplay />
+                                        </audio><br>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/english_to_mandarin/0016_000731%23zh_071.wav"
+                                                autoplay />
+                                        </audio>
+                                    </td>
+                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th style="vertical-align : middle;text-align: center">
+                                            <font color="red">English</font> Text
+                                        </th>
+                                        <th style="vertical-align : middle;text-align: center">
+                                            <font color="red">Chinese</font> Prompt
+                                        </th>
+                                        <th style="vertical-align : middle;text-align: center">Generation</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        This characterisation of the greater continence in the use of stimulants
+                                        practised by the women of the reputable classes may seem an excessive refinement
+                                        of logic at the expense of common sense.
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/ZeroShotICL_samples/mandarin_to_english/26900001.wav"
+                                                autoplay />
+                                        </audio><br>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/mandarin_to_english/26900001%23en_024.wav"
+                                                autoplay />
+                                        </audio>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        Before any could stop him he butted his Majesty so furiously that the King
+                                        soared far into the air and tumbled in a heap among the benches, where he lay
+                                        moaning and groaning.
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/ZeroShotICL_samples/mandarin_to_english/0004_001432.wav"
+                                                autoplay />
+                                        </audio><br>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/mandarin_to_english/0004_001432%23en_077.wav"
+                                                autoplay />
+                                        </audio>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align : middle;text-align: center">
+                                        <font color="red">Code-Switch</font> Text
+                                    </th>
+                                    <th style="vertical-align : middle;text-align: center">
+                                        <font color="red">Chinese</font> Prompt
+                                    </th>
+                                    <th style="vertical-align : middle;text-align: center">Generation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        你昨天的performance真是outstanding，完全展示了你的skills。
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/mandarin_to_mix/00_09_68680731_36_s142090_e156540_spk0.wav"
+                                                autoplay />
+                                        </audio><br>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/mandarin_to_mix/00_09_68680731_36_s142090_e156540_spk0%23en_zh_014.wav"
+                                                autoplay />
+                                        </audio>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        我觉得我们需要一个更clear的strategy来实现我们的goals。
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/ZeroShotICL_samples/mandarin_to_mix/0010_000380.wav"
+                                                autoplay />
+                                        </audio><br>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/mandarin_to_mix/0010_000380%23en_zh_013.wav"
+                                                autoplay />
+                                        </audio>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align : middle;text-align: center">
+                                        <font color="red">Code-Switch</font> Text
+                                    </th>
+                                    <th style="vertical-align : middle;text-align: center">
+                                        <font color="red">English</font> Prompt
+                                    </th>
+                                    <th style="vertical-align : middle;text-align: center">Generation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        这次旅行的schedule有点tight，我们需要plan的更efficient一些。
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/ZeroShotICL_samples/english_to_mix/p276%23p276_354.wav"
+                                                autoplay />
+                                        </audio><br>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/english_to_mix/p276%23p276_354%23en_zh_011_rep4.wav"
+                                                autoplay />
+                                        </audio>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        他今天的mood看起来不太好，可能需要一些space。
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/english_to_mix/2830_3980_000026_000005.wav"
+                                                autoplay />
+                                        </audio><br>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/ZeroShotICL_samples/english_to_mix/2830_3980_000026_000005%23en_zh_007_rep3.wav"
+                                                autoplay />
+                                        </audio>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </table>
+                    </div>
+                    <br>
+                    <h4 id="speaker-finetune-samples" style="text-align: center;">Few-Shot Speaker Adaptation</h2>
+                        <br>
+                        <div class="table-responsive pt-3">
+                            <table class="table table-hover pt-2">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center"></th>
+                                        <th style="text-align: center">Text</th>
+                                        <th style="text-align: center">Prompt Audio</th>
+                                        <th style="text-align: center">Zero-Shot Generated</th>
+                                        <th style="text-align: center">Few-Shot Generated</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="vertical-align : middle;text-align:center;" rowspan="2">Speaker 1
+                                            (2min)</td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            伏旭舅舅给小朋友讲的故事，是由，海豚绘本花园出品的，绘本故事。
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker1/09_00_33430996_32_s679070_e698010_spk0.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker1/zeroshot_09_00_33430996_32_s679070_e698010_spk0%23utt_05.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker1/09_00_33430996_32_s679070_e698010_spk0%23utt_05_rep4.wav" />
+                                            </audio>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            为了避开朋友，董海棠让王女士先出去遛狗。
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker1/09_00_33430996_32_s932380_e936750_spk0.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker1/09_00_33430996_32_s932380_e936750_spk0%23utt_07_rep3.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker1/fewshot_09_00_33430996_32_s932380_e936750_spk0%23utt_07.wav" />
+                                            </audio>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align : middle;text-align:center;" rowspan="2">Speaker 2
+                                            (2min)</td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            负责相关区域的快递员已按深圳市统一要求做了核酸检测。
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker2/13_12_56401784_2_s1714280_e1717130_spk0.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker2/zeroshot_13_12_56401784_2_s1714280_e1717130_spk0%23utt_06.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker2/fewshot_13_12_56401784_2_s1714280_e1717130_spk0%23utt_06.wav" />
+                                            </audio>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            明确线上课程教师讲授直播录播时间一般不超过二十分钟。
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker2/13_12_56401784_2_s1585630_e1605140_spk0.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker2/zeroshot_13_12_56401784_2_s1585630_e1605140_spk0%23utt_05.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/speaker2/fewshot_13_12_56401784_2_s1585630_e1605140_spk0%23utt_05.wav" />
+                                            </audio>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align : middle;text-align:center;" rowspan="3">Wu Kong <br>
+                                            (1 hour)</td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            本人代写小学生，中学生暑假作业，价格免议包邮哦。
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source src="audios/SpeakerFinetune_samples/wukong/wukong_001007.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/wukong/zeroshot_wukong_001007%23utt_07.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/wukong/fewshot_wukong_001007%23utt_07.wav" />
+                                            </audio>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            可以理解为，调整的实质是放松了单笔申报最大数量的限制。
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source src="audios/SpeakerFinetune_samples/wukong/wukong_000099.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/wukong/zeroshot_wukong_000099%23utt_01.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/wukong/fewshot_wukong_000099%23utt_01.wav" />
+                                            </audio>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            你们太没信誉了，这都五天了，还不发货，我要投诉你。
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source src="audios/SpeakerFinetune_samples/wukong/wukong_006668.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/wukong/zeroshot_wukong_006668%23utt_00.wav" />
+                                            </audio>
+                                        </td>
+                                        <td style="vertical-align : middle;text-align:center;">
+                                            <audio controls="controls" style="width: 190px;">
+                                                <source
+                                                    src="audios/SpeakerFinetune_samples/wukong/fewshot_wukong_006668%23utt_00.wav" />
+                                            </audio>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div> -->
+
+
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="podcast-generation" style="text-align: center;">Podcast Generation</h2>
+                    <h4 id="zero-shot-podcast-generation" style="text-align: center;">Zero-Shot Podcast Generation</h4>
+                    <br>
+                    <div style="text-align: left;">
+                        Note: We use the first two dialogue turns as a prompt and generate speech from the remaining
+                        text.
+                    </div>
+                    <div class="table-responsive pt-3">
+                        <table class="table table-hover pt-2">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center"></th>
+                                    <!-- <th style="text-align: center">Prompt Text</th> -->
+                                    <th style="text-align: center">Prompt Audio</th>
+                                    <!-- <th style="text-align: center">Dialogue Content</th> -->
+                                    <th style="text-align: center">MoonCast</th>
+                                    <th style="text-align: center">ZipVoice-Dialog</th>
+                                    <th style="text-align: center">MOSS-TTSD</th>
+                                    <th style="text-align: center">FireRedTTS-2 </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;" rowspan="2">Chinese</td>
+                                    <!-- <td style="vertical-align : middle;text-align:center;">
+                                            [S1]嗯嗯，我想要再call back一下，你之前刚刚讲的是在这个临床上面，其实并不能够让他提效。这个是基于research呢，还是基于政策在这个policy这个level方面呢不能提效。我不知道这个能不能帮我们break down一下嗯。<br>[S2]就一方面的话，其实还是技术本身。当然这个次技术它是一个我觉得是有史以来最伟大的人工智能在生物学的一个就是进展和发现和一个提升。但是它还是会出现错误，还是会出现原子重叠的现象。所以这些错误在biology这个领域或者药物研发的领域，它是不能容错的这是一个问题。
+                                        </td> -->
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/zero-shot-podcast-generation_samples/zh_1_prompt.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/zh_1_mooncast.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/zh_1_zipvoice.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/zero-shot-podcast-generation_samples/zh_1_moss.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/zh_1_fireredtts.wav" />
+                                        </audio>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- <td style="vertical-align : middle;text-align:center;" ></td> -->
+                                    <!-- <td style="vertical-align : middle;text-align:center;">
+                                            [S1]嗯嗯，我想要再call back一下，你之前刚刚讲的是在这个临床上面，其实并不能够让他提效。这个是基于research呢，还是基于政策在这个policy这个level方面呢不能提效。我不知道这个能不能帮我们break down一下嗯。<br>[S2]就一方面的话，其实还是技术本身。当然这个次技术它是一个我觉得是有史以来最伟大的人工智能在生物学的一个就是进展和发现和一个提升。但是它还是会出现错误，还是会出现原子重叠的现象。所以这些错误在biology这个领域或者药物研发的领域，它是不能容错的这是一个问题。
+                                        </td> -->
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/zero-shot-podcast-generation_samples/zh_2_prompt.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/zh_2_mooncast.mp3" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/zh_2_zipvoice.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/zero-shot-podcast-generation_samples/zh_2_moss.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/zh_2_fireredtts.wav" />
+                                        </audio>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:center;" rowspan="2">English</td>
+                                    <!-- <td style="vertical-align : middle;text-align:center;">
+                                            [S1]嗯嗯，我想要再call back一下，你之前刚刚讲的是在这个临床上面，其实并不能够让他提效。这个是基于research呢，还是基于政策在这个policy这个level方面呢不能提效。我不知道这个能不能帮我们break down一下嗯。<br>[S2]就一方面的话，其实还是技术本身。当然这个次技术它是一个我觉得是有史以来最伟大的人工智能在生物学的一个就是进展和发现和一个提升。但是它还是会出现错误，还是会出现原子重叠的现象。所以这些错误在biology这个领域或者药物研发的领域，它是不能容错的这是一个问题。
+                                        </td> -->
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/zero-shot-podcast-generation_samples/en_1_prompt.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/en_1_mooncast.mp3" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/en_1_zipvoice.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/zero-shot-podcast-generation_samples/en_1_moss.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/en_1_fireredtts.wav" />
+                                        </audio>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- <td style="vertical-align : middle;text-align:center;" ></td> -->
+                                    <!-- <td style="vertical-align : middle;text-align:center;">
+                                            [S1]嗯嗯，我想要再call back一下，你之前刚刚讲的是在这个临床上面，其实并不能够让他提效。这个是基于research呢，还是基于政策在这个policy这个level方面呢不能提效。我不知道这个能不能帮我们break down一下嗯。<br>[S2]就一方面的话，其实还是技术本身。当然这个次技术它是一个我觉得是有史以来最伟大的人工智能在生物学的一个就是进展和发现和一个提升。但是它还是会出现错误，还是会出现原子重叠的现象。所以这些错误在biology这个领域或者药物研发的领域，它是不能容错的这是一个问题。
+                                        </td> -->
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/zero-shot-podcast-generation_samples/en_2_prompt.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/en_2_mooncast.mp3" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/en_2_zipvoice.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/zero-shot-podcast-generation_samples/en_2_moss.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/zero-shot-podcast-generation_samples/en_2_fireredtts.wav" />
+                                        </audio>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br>
+                    <br>
+                    <h4 id="finetuned-podcast-generation" style="text-align: center;">Speaker-Specific Finetuned Podcast
+                        Generation</h4>
+
+                    <br>
+                    <div style="text-align: left;">
+                        Note: We generate speech from the multi-turn dialogue text using two fine-tuned speaker voices.
+                    </div>
+                    <div class="table-responsive pt-3">
+                        <table class="table table-hover pt-2">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center">Dialogue Content</th>
+                                    <th style="text-align: center">Ground Truth</th>
+                                    <th style="text-align: center">FireRedTTS-2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:left;">
+                                        [S1]对啊，我们也很久不见了。这这次也是云录制，之前都是面对面录的，所以最近怎么样？疫情对你的工作有什么影响吗？<br>[S2]嗯，影响还蛮大的，就是我也注意到就是不只是我了。我包括我知道其他咨询师，就是可能从三月份纽约就是关城以来，呃，很多咨询师的工作量都暴增。因为就是大家在家里面因为一下子巨大的变化嘛，很多人学就如果果学的的话，可能突然出了很多的学变然后工作的话，可能会担心心会被丢掉工作，或者说是呃在家里面工作跟同事都疏远了，然后就整个人得不到任何支持，反正各种各样的问题都出来了。
+                                    </td>
+
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/finetuned-podcast-generation_samples/zh_1_gt.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/finetuned-podcast-generation_samples/zh_1_fireredtts.wav" />
+                                        </audio>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:left;">
+                                        [S1]我们粗略统计了当天晚上的人流有七百多。<br>[S2]哦，那真的很多，因为我不知道就陈轴那一场，其实也算是你们的派对。<br>[S1]对，没错。<br>[S2]也是你们的年度派对。但是那一场其实相对来说就挺小众的，我感觉可能现场有个一百来人就已经蛮多了。
+                                    </td>
+
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/finetuned-podcast-generation_samples/zh_2_gt.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/finetuned-podcast-generation_samples/zh_2_fireredtts.wav" />
+                                        </audio>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:left;">
+                                        [S1]那可能说对对，没有去过美国来说去去看到美国线下。巴斯曼也好，沃尔玛也好，他们线下不管说，因为深圳出去的还是电子周边的会表达，会发现哇对这个价格真的是很高呀。都是卖三十五美金、四十美金，甚至一个手机壳，就是二十五美金开。<br>[S2]对，没错，我每次都觉得不不可思议。我什么人会买三五十美金的手机壳？但是其实在在那个target啊，就塔吉特这种超级市场，大家都是这样的，定价也很多人买。<br>[S1]对对，那这样我们再去看说亚马逊上面卖卖卖手机壳也好啊，贴膜也好，还包括说车窗也好，各种线材也好，大概就是七块九九或者说啊八块九九，这个价格才是卖的最多的啊。因为亚马逊的游戏规则限定的。如果说你卖七块九九以下，那你基本上是不赚钱的。<br>[S2]那比如说呃除了这个可能去到海外这个调查，然后这个调研考察那肯定是最直接的了。那平时我知道你是刚才建立了一个这个叫做呃rean的这样的一个一个播客，它是一个英文的。然后平时你还听一些什么样的东西，或者是从哪里获取一些这个海外市场的一些信息呢？<br>[S1]嗯，因为做做亚马逊的话呢，我们会关注很多行业内的东西。就比如说行业有什么样亚马逊有什么样新的游戏规则呀。呃，物流的价格有没有波动呀，包括说有没有什么新的评论的政策呀，广告有什么新的打法呀？那这些我们会会关关注很多行业内部的微信公众号呀，还包括去去查一些知乎专栏的文章呀，以及说我们周边有很多同行。那我们经常会坐在一起聊天，看看信息有什么共享。那这个是关注山内的一个方式。
+                                    </td>
+
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source src="audios/finetuned-podcast-generation_samples/zh_3_gt.wav" />
+                                        </audio>
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">
+                                        <audio controls="controls" style="width: 190px;">
+                                            <source
+                                                src="audios/finetuned-podcast-generation_samples/zh_3_fireredtts.wav" />
+                                        </audio>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="interactive-chat" style="text-align: center;">Interactive Chat</h2>
+                    <br>
+                    <h4 id="emo" style="text-align: center;">Implicit Emotional Control</h4>
+                    <br>
+                    <div class="table-responsive pt-3">
+                        <table class="table table-hover pt-2">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center">Dialogue Content</th>
+                                    <th style="text-align: center">Emotion</th>
+                                    <th style="text-align: center">Generated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="vertical-align : middle;text-align:left;">
+                                        [S1]我把你攒了半年的演唱会门票送人了。<br>[S_DIALOG]那是我排了三天队抢到的！你凭什么送人？你赔得起吗？！
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">Angry</td>
+                                    <td style="vertical-align : middle;text-align:center;"><audio controls="controls"
+                                            style="width: 190px;">
+                                            <source src="audios/interactive-chat_samples/angry.wav" autoplay />
+                                            Your browser does not support the audio element.
+                                        </audio></td>
+                                </tr>
+                                <tr>
+
+                                    <td style="vertical-align : middle;text-align:left;">
+                                        [S1]你答应帮我寄快递，结果拖了三天还没寄。<br>[S_DIALOG]对不起，我每天想着“明天寄”，结果一直拖，我现在就去，真的不好意思。
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">Apology</td>
+                                    <td style="vertical-align : middle;text-align:center;"><audio controls="controls"
+                                            style="width: 190px;">
+                                            <source src="audios/interactive-chat_samples/apology.wav" autoplay />
+                                            Your browser does not support the audio element.
+                                        </audio></td>
+                                </tr>
+
+                                <tr>
+
+                                    <td style="vertical-align : middle;text-align:left;">
+                                        [S1]你朋友最近情绪很低落，朋友圈发些奇怪的话。<br>[S_DIALOG]我也看到了，我好担心他是不是想不开，可我又不敢直接问。
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">Concern</td>
+                                    <td style="vertical-align : middle;text-align:center;"><audio controls="controls"
+                                            style="width: 190px;">
+                                            <source src="audios/interactive-chat_samples/concern.wav" autoplay />
+                                            Your browser does not support the audio element.
+                                        </audio></td>
+                                </tr>
+
+                                <tr>
+
+                                    <td style="vertical-align : middle;text-align:left;">
+                                        [S1]我家狗狗今天第一次学会握手，还摇尾巴！<br>[S_DIALOG]呜呜太萌了！它一定超爱你，快奖励它小饼干！
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">Happy</td>
+                                    <td style="vertical-align : middle;text-align:center;"><audio controls="controls"
+                                            style="width: 190px;">
+                                            <source src="audios/interactive-chat_samples/happy.wav" autoplay />
+                                            Your browser does not support the audio element.
+                                        </audio></td>
+                                </tr>
+
+                                <tr>
+
+                                    <td style="vertical-align : middle;text-align:left;">
+                                        [S1]你妈妈走之前最遗憾的是没见你结婚？<br>[S_DIALOG]我结婚那天，在她照片前放了双筷子。敬酒时，我跪下说：“妈，我成家了。”<br>
+                                        可没人回应我，那一刻，我哭得像个没妈的孩子。
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">Sad</td>
+                                    <td style="vertical-align : middle;text-align:center;"><audio controls="controls"
+                                            style="width: 190px;">
+                                            <source src="audios/interactive-chat_samples/sad.wav" autoplay />
+                                            Your browser does not support the audio element.
+                                        </audio></td>
+                                </tr>
+                                <tr>
+
+                                    <td style="vertical-align : middle;text-align:left;">
+                                        [S1]我手机语音助手突然用我妈妈的声音说话！<br>[S_DIALOG]这太诡异了！它是不是偷偷连接了另一个世界？！
+                                    </td>
+                                    <td style="vertical-align : middle;text-align:center;">Surprised</td>
+                                    <td style="vertical-align : middle;text-align:center;"><audio controls="controls"
+                                            style="width: 190px;">
+                                            <source src="audios/interactive-chat_samples/surprise.wav" autoplay />
+                                            Your browser does not support the audio element.
+                                        </audio></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                </div>
+
+            </article>
+        </main>
+    </div>
+
+</body>
+
+</html>
