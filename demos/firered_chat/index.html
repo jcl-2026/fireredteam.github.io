@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.88.1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="" https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/normalize.css">
+
+    <title>FireRedChat</title>
+    <link rel="icon" href="pics/icon.png" type="image/png">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .container::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .left {
+            float: left;
+            max-width: 20%; /* Adjust as needed */
+        }
+        .right {
+            float: right;
+            max-width: 20%; /* Adjust as needed */
+        }
+        img {
+            width: auto;
+            height: auto;
+        }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh; /* This makes the container full height of the viewport */
+        }
+        video {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+
+
+<body data-new-gr-c-s-check-loaded="14.1091.0" data-gr-ext-installed="">
+
+    <div class="container">
+        <header role="banner">
+        </header>
+        <main role="main">
+            <article itemscope itemtype="https://schema.org/BlogPosting">
+
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <p style="text-align: left;">
+                    </p>
+                    <div class="text-center">
+                        <h2>FireRedChat: Toward Lifelike Full-Duplex Voice Interaction: A Pluggable System with Cascaded and Semi-Cascaded Implementations</h2>
+                        [<a href="http://arxiv.org/abs/2501.14350">Paper</a>]
+                        [<a href="https://github.com/FireRedTeam/FireRedASR">Code</a>]
+
+                        <p class="fst-italic mb-0">
+                            <br>
+                            <b><a href="https://fireredteam.github.io">FireRed Team</a></b>
+                        <p></p>
+                        </p>
+                    </div>
+                    <p><b>Abstract.</b>Full-duplex voice interaction enables users and agents to speak simultaneously, supporting barge-in for lifelike dialogue, and is critical for AI assistants and customer service. Existing approaches are either end-to-end models that handle turn-taking, complex to design and hard to control, or modular pipelines governed by turn-taking controllers that upgrade existing systems and allow per-module optimization. Prior frameworks embrace modularity but depend on non-open components and external model providers, impeding holistic optimization. In this work, we present a complete, practical full-duplex system comprising a turn-taking controller, an interaction module, and a dialogue manager. The controller integrates personalized VAD (pVAD) that suppresses false barge-ins from background noise and non-primary speakers, accurately timestamps primary-speaker segments, and explicitly enables barge-in triggered by the primary speaker; a semantic end-of-turn (EoT) detector improves stop decisions. With this controller, heterogeneous half-duplex pipelines, cascaded, semi-cascaded, or speech-to-speech, are seamlessly upgraded to full duplex. With our internal models, we implement cascaded and semi-cascaded variants: the former benefits from mature deployment; the latter perceives emotional and paralinguistic cues, yields more coherent responses, reduces latency and error propagation, and improves robustness. A dialogue manager extends capabilities via tool invocation and context management. We further propose three system-level metrics, barge-in, end-of-turn detection accuracy, and end-to-end latency, to assess naturalness, control accuracy, and efficiency of full-duplex interaction, with the aim of guiding subsequent improvements.
+                    </p>
+                    <p>
+					<b>Contents</b>
+                    <ul>
+                        <li><a href="#system-overview">System Overview</a></li>
+                        <li><a href="#workflow-overview">Workflow Overview</a></li>
+                        <li><a href="#config">Configurations between different systems.</a></li>
+                        <li><a href="#barge-in">Barge-In evaluation results.</a></li>
+						<li><a href="#EoT">End-of-turn Detection evaluation results.</a></li>
+                        <li><a href="#Latency">Latency of different systems.</a></li>
+                    </ul>
+                    </p>
+                </div>
+
+                
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="Demo" style="text-align: center;">Demo</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <video src="" height="1200" width="1200"></video>
+                        </p>
+                    </body>
+                    <!-- <p style="text-align: center;">
+                        <b>Figure 1.</b> FireRedChat System Modules.
+                    </p> -->
+                </div>
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="system-overview" style="text-align: center;">System Overview</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/arc.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Figure 1.</b> FireRedChat System Modules.
+                    </p>
+                </div>
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="workflow-overview" style="text-align: center;">Workflow</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/flow.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Figure 2.</b> FireRedChat Voice Interaction Flow.
+                    </p>
+                </div>
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="config" style="text-align: center;">Configurations between different systems</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/sys_config.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Table 3.</b> Configurations between different systems.
+                    </p>
+                </div>
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="barge-in" style="text-align: center;">Barge-In evaluation results</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/cer2.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Table 4.</b>Barge-In evaluation results.
+                    </p>
+                </div>
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="EoT" style="text-align: center;">End-of-turn Detection evaluation results</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/exp_eot.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Table 5.</b>End-of-turn Detection evaluation results.
+                    </p>
+                </div>
+                <div class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+                    <h2 id="Latency" style="text-align: center;">Latency of different systems</h2>
+                    <body>
+                        <p style="text-align: center;">
+                            <img src="pics/exp_latency.png" height="1200" width="1200">
+                        </p>
+                    </body>
+                    <p style="text-align: center;">
+                        <b>Table 6.</b>Latency of different systems.
+                    </p>
+                </div>
+            
+            </article>
+        </main>
+    </div>
+
+</body>
+
+</html>
