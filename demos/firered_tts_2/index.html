@@ -81,11 +81,12 @@
                         <p></p>
                         </p>
                     </div>
-                    <p><b>Abstract.</b> Existing dialogue text-to-speech requires the full dialogue script and emits one
-                        monolithic waveform, blocking interactive extension and yielding unstable synthesis,
-                        speaker-transition errors, and incoherent prosody. In this work, we present FireRedTTS‑2, a
-                        long-form streaming TTS system for multi-speaker dialogue generation, delivering stable, natural
-                        speech with reliable speaker switching and context-aware prosody. A new 12.5Hz streaming speech
+                    <p><b>Abstract.</b> Current dialogue-generation approaches typically require the complete dialogue
+                        text before synthesis and produce a single, inseparable speech containing all voices, making
+                        them unsuitable for interactive chat; moreover, they suffer from unstable synthesis, inaccurate
+                        speaker transitions, and incoherent prosody. In this work, we present FireRedTTS‑2, a long-form
+                        streaming TTS system for multi-speaker dialogue generation, delivering stable, natural speech
+                        with reliable speaker switching and context-aware prosody. A new 12.5Hz streaming speech
                         tokenizer accelerates training and inference, extends maximum dialogue length, encodes richer
                         semantics to stabilize text-to-token modeling and supports high-fidelity streaming generation
                         for real-time applications. We adopt a text–speech interleaved format, concatenating
@@ -133,7 +134,9 @@
                     <h2 id="app-video" style="text-align: center;">Video Demo</h2>
                     <div class="video-container">
                         <video controls>
-                            <source src="https://github.com/FireRedTeam/fireredteam.github.io/raw/main/demos/firered_tts_2/video/blog_chat.mp4" type="video/mp4">
+                            <source
+                                src="https://github.com/FireRedTeam/fireredteam.github.io/raw/main/demos/firered_tts_2/video/blog_chat.mp4"
+                                type="video/mp4">
                         </video>
                     </div>
                 </div>
