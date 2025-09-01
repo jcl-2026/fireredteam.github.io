@@ -81,23 +81,21 @@
                         <p></p>
                         </p>
                     </div>
-                    <p><b>Abstract.</b> Conventional monologue text-to-speech systems can synthesis natural-sounding
-                        single-speaker utterances. They can be adapted to multi-speaker dialogue generation by
-                        segmenting the text into utterances and synthesizing each fragment,but their limited awareness
-                        of text and speech context often leads to incoherent prosody. Current dialogue-generation
-                        approaches typically require the full dialogue text upfront before synthesis and produce a
-                        single mixed speech containing all voices, which hinders their use in interactive chat
-                        scenarios. They also suffer from unstable synthesis, inaccurate speaker transitions and
-                        incoherent prosody. In this work, we present FireRedTTS-2, a conversational speech generation
-                        system well suited to downstream chat and podcast applications. It features a low frame rate
-                        streaming speech tokenizer with enhanced semantic representations and a dual transformer
-                        text-to-speech model operating on text-speech interleaving format. Its design allows for
-                        flexible sentence-by-sentence generation with first packet latency lower than 100ms.
-                        Experimental results show that FireRedTTS-2 integrates seamlessly into interactive chat
-                        frameworks, producing emotional speech response inferred from implicit context. It delivers more
-                        stable synthesis, more accurate speaker transitions, and more contextually coherent prosody,
-                        surpassing state-of-the-art dialogue generation models such as MoonCast, ZipVoice-Dialogue, and
-                        MOSS-TTSD.
+                    <p><b>Abstract.</b> Existing dialogue text-to-speech requires the full dialogue script and emits one
+                        monolithic waveform, blocking interactive extension and yielding unstable synthesis,
+                        speaker-transition errors, and incoherent prosody. In this work, we present FireRedTTS‑2, a
+                        long-form streaming TTS system for multi-speaker dialogue generation, delivering stable, natural
+                        speech with reliable speaker switching and context-aware prosody. A new 12.5Hz streaming speech
+                        tokenizer accelerates training and inference, extends maximum dialogue length, encodes richer
+                        semantics to stabilize text-to-token modeling and supports high-fidelity streaming generation
+                        for real-time applications. We adopt a text–speech interleaved format, concatenating
+                        speaker-labeled text with aligned speech tokens in chronological order, and model it with a
+                        dual-transformer: a large decoder-only transformer predicts tokens at the first layer, and a
+                        smaller one completes subsequent layers. Experimental results show that FireRedTTS‑2 integrates
+                        seamlessly with chat frameworks and, with minimal fine-tuning, produces emotionally expressive
+                        speech guided by implicit contextual cues. In podcast generation, it surpasses existing systems
+                        including MoonCast, Zipvoice-Dialogue, and MOSS-TTSD in objective intelligibility, speaker-turn
+                        reliability, and perceived naturalness with context-consistent prosody.
                     </p>
 
                     <p>
