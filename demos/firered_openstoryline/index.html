@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.88.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+
+  <title>FireRed-OpenStoryline</title>
+  <link rel="icon" href="pics/icon.png" type="image/png">
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1091.0" data-gr-ext-installed="">
+  <div class="container">
+    <header role="banner"></header>
+
+    <main role="main">
+      <article itemscope itemtype="https://schema.org/BlogPosting">
+
+        <!-- ===================== 第 1 页：Abstract + 目录 ===================== -->
+        <div id="page-1" class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+
+          <p style="text-align: left;">
+            <img
+                src="pics/FireRed_OpenStoryline.png"
+                height="200"
+                width="200"
+                alt="Left logo"
+                class="left"
+            >
+            <img
+                src="pics/FireRed_OpenStoryline.png"
+                height="200"
+                width="200"
+                alt="Right logo"
+                class="right"
+            >
+            </p>
+
+          <div class="text-center">
+            <h2>OpenStoryline: An Agentic Framework for Autonomous, Human-Aligned Video Creation</h2>
+            [<a href="https://github.com/FireRedTeam/FireRed-OpenStoryline">code</a>]
+            <p class="fst-italic mb-0">
+                <br>
+                <b><a href="https://fireredteam.github.io">FireRed Team</a></b>
+            </p>
+          </div>
+
+          <p>
+            <b>Abstract.</b>
+            Existing "intelligent editing" solutions often remain confined by rigid templates, heavy parameterization, or complex engineering pipelines, failing to bridge the gap between amateur workflows and professional-grade storytelling. In this work, we present FireRed-OpenStoryline, an agentic video creation framework that synergizes Large Language Models (LLMs) with autonomous planning and precise tool execution, fundamentally shifting the paradigm from manual editing to intention-driven directing. Given abstract user intent and raw footage, the system orchestrates a comprehensive pipeline: it performs semantic media retrieval and shot-level content understanding to filter high-quality clips; generates rhythm-aware narratives where subtitle pacing aligns strictly with visual flow; and ensures audiovisual aesthetic alignment through mood-matched background music, beat-synced cutting, and expressive voiceovers. Architecturally, OpenStoryline is modularized via a Model Context Protocol (MCP) server for granular editing primitives and a state-aware middleware for context management. Crucially, unlike "black-box" one-shot generators, our system supports a transparent, human-in-the-loop workflow where users can intervene via natural language at any stage and encapsulate their preferences into reusable "Style Skills", allowing for the efficient replication of distinct editing aesthetics across future projects.
+          </p>
+
+          <p>
+            <b>Contents</b>
+          <ul>
+            <li><a href="#page-2">Feature</a></li>
+            <li><a href="#page-3">Architecture</a></li>
+            <li><a href="#page-4">Demo</a></li>
+          </ul>
+          </p>
+        </div>
+
+        <!-- ===================== 第 2 页：放一个大的视频 ===================== -->
+        <div id="page-2" class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+          <h2 style="text-align: center">Feature</h2>
+          <div class="video-container">
+            <div class="media-viewport">
+              <video controls preload="metadata" playsinline style="width: 100%; height: auto;">
+                <source src="https://github.com/user-attachments/assets/e1cff030-15b5-4d6d-9d77-c7ccbbdfaa30" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===================== 第 3 页：架构图 + 图注 ===================== -->
+        <div id="page-3" class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+          <h2 style="text-align: center;">Architecture</h2>
+
+          <p style="text-align: center;">
+            <img class="arch-figure" src="https://github.com/user-attachments/assets/629ced5c-6d1c-4afb-85c4-77f526379129" alt="Architecture Figure">
+          </p>
+
+          <p style="text-align: center;">
+            <b>Figure.</b>
+            Figure presents the FireRed‑OpenStoryline system architecture for agentic video creation. External inputs (natural‑language prompts, multimodal media, and runtime configurations) are processed by an Agent Client, where an LLM/VLM performs intent routing and produces either direct textual responses or structured tool calls. A Storyline Middleware layer enforces robustness by maintaining context, handling dependencies, and summarizing tool outputs; intermediate states are persisted in Agent Memory to enable iterative refinement. Execution is delegated to an MCP (Model Context Protocol) server that exposes modular atomic tool nodes. A resource layer supplies reusable assets and editable “skills” that encode creator preferences, while optional external APIs extend capabilities. This separation of decision making, resilient orchestration, and standardized tool execution supports scalable extensibility beyond tool‑driven editing pipelines.
+          </p>
+        </div>
+
+        <!-- ===================== 第 4 页：Demo（2*4） ===================== -->
+        <div id="page-4" class="container pt-5 mt-5 shadow-lg p-5 mb-5 bg-white rounded">
+          <h2 style="text-align: center;">Demo</h2>
+
+          <div class="media-grid-8">
+            <!-- 1 -->
+            <div class="media-tile">
+              <p class="media-tile-title">种草视频</p>
+              <div class="video-container">
+                <div class="media-viewport">
+                  <video controls preload="metadata" playsinline>
+                    <source src="https://github.com/user-attachments/assets/626513b6-c230-4f91-8272-50530652008a" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2 -->
+            <div class="media-tile">
+              <p class="media-tile-title">幽默风格</p>
+              <div class="video-container">
+                <div class="media-viewport">
+                  <video controls preload="metadata" playsinline>
+                    <source src="https://github.com/user-attachments/assets/c6b04f8f-2348-4c44-a0b5-07e816aca85c" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3 -->
+            <div class="media-tile">
+              <p class="media-tile-title">好物分享</p>
+              <div class="video-container">
+                <div class="media-viewport">
+                  <video controls preload="metadata" playsinline>
+                    <source src="https://github.com/user-attachments/assets/3f8f1f58-7e79-4907-bd70-6526c6bf9987" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 -->
+            <div class="media-tile">
+              <p class="media-tile-title">文艺风格</p>
+              <div class="video-container">
+                <div class="media-viewport">
+                  <video controls preload="metadata" playsinline>
+                    <source src="https://github.com/user-attachments/assets/6a559a65-b4dc-4d70-b982-b50c4b495a4e" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5 -->
+            <div class="media-tile">
+              <p class="media-tile-title">开箱视频</p>
+              <div class="video-container">
+                <div class="media-viewport">
+                  <video controls preload="metadata" playsinline>
+                    <source src="https://github.com/user-attachments/assets/75f39f7a-54af-48bb-a000-e7ee2f8b1151" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6 -->
+            <div class="media-tile">
+              <p class="media-tile-title">萌宠说话</p>
+              <div class="video-container">
+                <div class="media-viewport">
+                  <video controls preload="metadata" playsinline>
+                    <source src="https://github.com/user-attachments/assets/cee696f2-436d-420e-89bd-9464d0599108" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7 -->
+            <div class="media-tile">
+              <p class="media-tile-title">旅行Vlog</p>
+              <div class="video-container">
+                <div class="media-viewport">
+                  <video controls preload="metadata" playsinline>
+                    <source src="https://github.com/user-attachments/assets/7bd6bca7-4d27-492a-994b-41eb75ba5448" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+
+            <!-- 8 -->
+            <div class="media-tile">
+              <p class="media-tile-title">年终总结</p>
+              <div class="video-container">
+                <div class="media-viewport">
+                  <video controls preload="metadata" playsinline>
+                    <source src="https://github.com/user-attachments/assets/83b68d96-3eac-43fa-87c0-4601b9ea8e1a" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </article>
+    </main>
+  </div>
+</body>
+</html>
